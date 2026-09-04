@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f5f0">
+<title>我的工作台</title>
+<style>
+:root{--bg:#f7f5f0;--card:#fff;--text:#262522;--muted:#88847d;--line:#ebe7df;--accent:#6f7f68;--warn:#b9823d;--danger:#b45f5f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif}
+main{max-width:720px;margin:auto;padding:24px 16px 90px}.top{display:flex;justify-content:space-between;align-items:end;margin-bottom:18px}.date{color:var(--muted);font-size:13px}.title{font-size:29px;font-weight:750;margin-top:4px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin:12px 0;box-shadow:0 4px 18px #00000005}.card h2{font-size:17px;margin:0 0 14px}.money{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#faf9f6;border-radius:16px;padding:13px}.metric small{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.metric strong{font-size:21px}.hero{background:#e9eee7}.hero .big{font-size:34px;font-weight:800}.bar{height:8px;background:#e8e5de;border-radius:99px;overflow:hidden;margin:10px 0}.bar i{display:block;height:100%;background:var(--accent);width:0}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.muted{color:var(--muted);font-size:13px}.btn{border:0;border-radius:13px;padding:10px 13px;background:#282722;color:white;font-size:14px;font-weight:650}.btn.secondary{background:#f0eee9;color:#333}.btn.danger{background:#f6e8e8;color:var(--danger)}input,select{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px;font-size:15px;outline:none}.form{display:grid;gap:9px}.task{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.task:last-child{border-bottom:0}.task input{width:20px;height:20px}.done{text-decoration:line-through;color:var(--muted)}.alpha{display:grid;gap:10px}.goal{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.goalbar{grid-column:1/-1;height:7px;background:#eeeae3;border-radius:99px;overflow:hidden}.goalbar i{display:block;height:100%;background:var(--accent)}.note{font-size:14px;line-height:1.6}.status{margin-top:10px;padding:11px 12px;border-radius:13px;background:#f3f1ec;font-size:13px;line-height:1.5}.actions{display:flex;gap:8px;flex-wrap:wrap}.empty{color:var(--muted);font-size:14px;padding:6px 0}.modal{position:fixed;inset:0;background:#0006;display:none;align-items:end;justify-content:center;padding:12px}.sheet{background:white;width:min(720px,100%);border-radius:24px;padding:20px}.sheet h3{margin:0 0 15px}.close{float:right;border:0;background:#f1eee8;border-radius:50%;width:32px;height:32px}.footer{color:var(--muted);font-size:11px;text-align:center;margin-top:25px}
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><div><div class="date" id="date"></div><div class="title">我的工作台</div></div><div class="muted" id="dayleft"></div></div>
+
+  <section class="card hero">
+    <div class="row"><h2>💰 今日建议消费</h2><span id="health">—</span></div>
+    <div class="big" id="daily">¥0.00</div>
+    <div class="muted" id="moneyTip"></div>
+  </section>
+
+  <section class="card">
+    <div class="row"><h2>💳 本月预算</h2><button class="btn secondary" onclick="openMoney()">设置</button></div>
+    <div class="money">
+      <div class="metric"><small>生活费</small><strong id="allowance">¥0</strong></div>
+      <div class="metric"><small>存钱目标</small><strong id="target">¥0</strong></div>
+      <div class="metric"><small>已消费</small><strong id="spent">¥0</strong></div>
+      <div class="metric"><small>剩余可花</small><strong id="remain">¥0</strong></div>
+    </div>
+    <div class="bar"><i id="moneybar"></i></div>
+    <div class="row muted"><span id="saveProgress">存钱目标进度</span><span id="forecast"></span></div>
+    <div class="actions" style="margin-top:13px"><button class="btn" onclick="openExpense()">＋ 记一笔</button><button class="btn secondary" onclick="openMoney()">修改本月计划</button></div>
+  </section>
+
+  <section class="card">
+    <div class="row"><h2>📋 今日待办</h2><button class="btn secondary" onclick="addTask()">＋ 添加</button></div>
+    <div id="tasks"></div>
+  </section>
+
+  <section class="card">
+    <div class="row"><h2>🎯 Project Alpha</h2><button class="btn secondary" onclick="editGoals()">编辑</button></div>
+    <div class="alpha" id="goals"></div>
+    <div class="status" id="alphaTip"></div>
+  </section>
+
+  <div class="footer">V1 · 数据保存在本机浏览器中</div>
+</main>
+
+<div class="modal" id="modal"><div class="sheet">
+<button class="close" onclick="closeModal()">×</button><h3 id="modalTitle"></h3><div id="modalBody"></div>
+</div></div>
+
+<script>
+const KEY="my_dashboard_v1";
+let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
+ allowance:2000,target:500,fixed:300,expenses:[],tasks:[
+  {t:"完成今天的英语学习",done:false},{t:"推进 Project Alpha 今日任务",done:false}
+ ],goals:[
+  {n:"英语",p:50},{n:"AI Skills",p:35},{n:"外贸",p:25},{n:"教学",p:30},{n:"Portfolio",p:20}
+ ]};
+function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function money(n){return "¥"+Number(n||0).toFixed(2)}
+function daysLeft(){let d=new Date(),last=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();return last-d.getDate()+1}
+function spent(){return data.expenses.reduce((a,x)=>a+Number(x.amount),0)}
+function render(){
+ let d=new Date(); document.getElementById("date").textContent=d.toLocaleDateString("zh-CN",{month:"long",day:"numeric",weekday:"long"});
+ let days=daysLeft();document.getElementById("dayleft").textContent="本月剩 "+days+" 天";
+ let usable=Math.max(0,data.allowance-data.target-data.fixed), s=spent(), remain=Math.max(0,usable-s), daily=days?remain/days:remain;
+ document.getElementById("daily").textContent=money(daily);
+ document.getElementById("allowance").textContent=money(data.allowance);
+ document.getElementById("target").textContent=money(data.target);
+ document.getElementById("spent").textContent=money(s);
+ document.getElementById("remain").textContent=money(remain);
+ document.getElementById("moneybar").style.width=Math.min(100,usable? s/usable*100:0)+"%";
+ let rate=usable? s/usable:0;
+ let health=document.getElementById("health"),tip=document.getElementById("moneyTip");
+ if(remain<=0){health.textContent="🔴";tip.textContent="预算已经用完；如果还想完成存钱目标，需要减少后续支出。"}
+ else if(rate>.8){health.textContent="🟡";tip.textContent="最近消费偏快，接下来尽量按每日建议额度控制。"}
+ else{health.textContent="🟢";tip.textContent="目前在计划内，可以按这个每日额度继续消费。"}
+ let saved=Math.max(0,data.allowance-data.fixed-s), saveTarget=Math.max(0,data.target);
+ document.getElementById("saveProgress").textContent="预计可存 "+money(saved)+" / "+money(saveTarget);
+ document.getElementById("forecast").textContent=saved>=saveTarget?"目标可达成":"还差 "+money(saveTarget-saved);
+ document.getElementById("tasks").innerHTML=data.tasks.length?data.tasks.map((x,i)=>`<div class="task"><input type="checkbox" ${x.done?"checked":""} onchange="toggleTask(${i})"><span class="${x.done?"done":""}">${esc(x.t)}</span><button class="btn danger" style="margin-left:auto;padding:7px 9px" onclick="delTask(${i})">删</button></div>`).join(""):'<div class="empty">今天还没有任务。</div>';
+ document.getElementById("goals").innerHTML=data.goals.map((g,i)=>`<div class="goal"><span>${esc(g.n)}</span><b>${g.p}%</b><div class="goalbar"><i style="width:${Math.max(0,Math.min(100,g.p))}%"></i></div></div>`).join("");
+ document.getElementById("alphaTip").textContent="阶段平均进度 "+Math.round(data.goals.reduce((a,g)=>a+Number(g.p),0)/Math.max(1,data.goals.length))+"%。这里先作为 Alpha 总览，后续可以继续接入你的具体阶段目标。";
+}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function modal(title,body){document.getElementById("modalTitle").textContent=title;document.getElementById("modalBody").innerHTML=body;document.getElementById("modal").style.display="flex"}
+function closeModal(){document.getElementById("modal").style.display="none"}
+function openMoney(){modal("本月预算设置",`<div class="form">
+<label>本月生活费<input id="m1" type="number" value="${data.allowance}"></label>
+<label>想存下多少<input id="m2" type="number" value="${data.target}"></label>
+<label>固定支出<input id="m3" type="number" value="${data.fixed}"></label>
+<button class="btn" onclick="saveMoney()">保存计划</button></div>`)}
+function saveMoney(){data.allowance=+document.getElementById("m1").value||0;data.target=+document.getElementById("m2").value||0;data.fixed=+document.getElementById("m3").value||0;save();closeModal()}
+function openExpense(){modal("记一笔",`<div class="form">
+<label>金额<input id="e1" type="number" inputmode="decimal" step="0.01" placeholder="例如 18"></label>
+<label>类别<select id="e2"><option>🍚 吃饭</option><option>🧋 饮料</option><option>🚇 交通</option><option>🛍️ 购物</option><option>📚 学习</option><option>🎮 娱乐</option><option>💄 日用品</option><option>📦 其他</option></select></label>
+<label>备注<input id="e3" placeholder="例如 午饭"></label>
+<button class="btn" onclick="addExpense()">记录并重新计算</button></div>`)}
+function addExpense(){let a=+document.getElementById("e1").value;if(!(a>0))return;data.expenses.push({amount:a,cat:document.getElementById("e2").value,note:document.getElementById("e3").value,date:new Date().toISOString()});save();closeModal();setTimeout(()=>openAdvice(a),50)}
+function openAdvice(a){let days=daysLeft(),usable=Math.max(0,data.allowance-data.target-data.fixed),r=Math.max(0,usable-spent()),daily=days?r/days:r;modal("这笔钱记好了 💰",`<div class="note">已记录 <b>${money(a)}</b>。<br><br>本月剩余可花：<b>${money(r)}</b><br>接下来 ${days} 天，平均每天建议最多：<b>${money(daily)}</b><br><br>${r>0?"你目前仍在预算轨道上。":"⚠️ 当前可花预算已用完，需要减少后续支出才能保住存钱目标。"}</div>`)}
+function addTask(){modal("添加待办",`<div class="form"><input id="t1" placeholder="例如：背30个单词"><button class="btn" onclick="doAddTask()">添加</button></div>`)}
+function doAddTask(){let t=document.getElementById("t1").value.trim();if(!t)return;data.tasks.push({t,done:false});save();closeModal()}
+function toggleTask(i){data.tasks[i].done=!data.tasks[i].done;save()}
+function delTask(i){data.tasks.splice(i,1);save()}
+function editGoals(){modal("编辑 Project Alpha",`<div class="form">${data.goals.map((g,i)=>`<label>${esc(g.n)}<input id="g${i}" type="number" min="0" max="100" value="${g.p}"></label>`).join("")}<button class="btn" onclick="saveGoals()">保存进度</button></div>`)}
+function saveGoals(){data.goals.forEach((g,i)=>g.p=Math.max(0,Math.min(100,+document.getElementById("g"+i).value||0)));save();closeModal()}
+render();
+</script>
+</body>
+</html>
