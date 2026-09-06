@@ -5,1168 +5,2000 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f7f5f0">
 <link rel="icon" type="image/jpeg" href="favicon.jpg">
-<title>我的工作台 · V3</title>
+<title>我的工作台 · V4</title>
 <style>
 :root{--bg:#f7f5f0;--card:#fff;--text:#262522;--muted:#88847d;--line:#ebe7df;--accent:#6f7f68;--soft:#eef2eb;--warn:#b9823d;--danger:#b45f5f;--blue:#667b92}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif}
-main{max-width:760px;margin:auto;padding:20px 15px 100px}.top{display:flex;justify-content:space-between;align-items:end;margin-bottom:15px}.date{color:var(--muted);font-size:13px}.title{font-size:29px;font-weight:800;margin-top:4px}.muted{color:var(--muted);font-size:13px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif}
+main{max-width:760px;margin:auto;padding:20px 15px 100px}
+.top{display:flex;justify-content:space-between;align-items:end;margin-bottom:15px}
+.date{color:var(--muted);font-size:13px}
+.title{font-size:29px;font-weight:800;margin-top:4px}
+.muted{color:var(--muted);font-size:13px}
 nav{position:sticky;top:0;z-index:10;background:#f7f5f0ee;backdrop-filter:blur(12px);padding:8px 0;margin-bottom:8px;overflow:auto;display:flex;gap:7px}
-nav button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-size:12px;color:#555}nav button.active{background:#282722;color:#fff;border-color:#282722}
-.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin:11px 0;box-shadow:0 4px 18px #00000005}.card h2{font-size:17px;margin:0 0 13px}.hero{background:#e9eee7}.hero .big{font-size:34px;font-weight:850}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.money{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric{background:#faf9f6;border-radius:16px;padding:12px}.metric small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}.metric strong{font-size:20px}.bar,.goalbar{height:8px;background:#e8e5de;border-radius:99px;overflow:hidden;margin:10px 0}.bar i,.goalbar i{display:block;height:100%;background:var(--accent);width:0}.btn{border:0;border-radius:13px;padding:10px 13px;background:#282722;color:white;font-size:14px;font-weight:650}.btn.secondary{background:#f0eee9;color:#333}.btn.danger{background:#f6e8e8;color:var(--danger)}.actions{display:flex;gap:8px;flex-wrap:wrap}
-input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px;font-size:15px;outline:none;font-family:inherit}textarea{min-height:80px;resize:vertical}.form{display:grid;gap:9px}.form label{font-size:13px;color:#555}.form label input,.form label select,.form label textarea{margin-top:5px}
-.task,.event,.food,.expense{display:flex;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.task:last-child,.event:last-child,.food:last-child,.expense:last-child{border-bottom:0}.task input{width:20px;height:20px}.done{text-decoration:line-through;color:var(--muted)}.priority{font-size:11px;padding:4px 7px;border-radius:999px;background:#f0eee9}.priority.high{background:#f6e8e8;color:var(--danger)}.priority.mid{background:#f5efe4;color:var(--warn)}
-.section{scroll-margin-top:55px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.small{font-size:12px}.tag{display:inline-block;padding:5px 8px;background:var(--soft);border-radius:9px;font-size:11px;color:#5f6f59}.alpha{display:grid;gap:10px}.goal{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center}.goalbar{grid-column:1/-1;margin:1px 0 5px}.note{font-size:14px;line-height:1.65}.status{margin-top:10px;padding:11px 12px;border-radius:13px;background:#f3f1ec;font-size:13px;line-height:1.55}.empty{color:var(--muted);font-size:14px;padding:6px 0}.footer{color:var(--muted);font-size:11px;text-align:center;margin-top:25px}
-.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:10px}.tabs button{border:1px solid var(--line);background:#faf9f6;border-radius:10px;padding:8px 10px;font-size:12px}.tabs button.sel{background:#e9eee7;border-color:#dce5d8}
-.modal{position:fixed;inset:0;background:#0006;display:none;align-items:end;justify-content:center;padding:10px;z-index:20}.sheet{background:white;width:min(760px,100%);max-height:90vh;overflow:auto;border-radius:24px;padding:20px}.sheet h3{margin:0 0 15px}.close{float:right;border:0;background:#f1eee8;border-radius:50%;width:32px;height:32px}.calendar{margin-top:4px}.week,.monthgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.week b{text-align:center;color:var(--muted);font-size:11px;padding:5px}.calday{min-height:64px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:7px;text-align:left;position:relative;color:var(--text)}.calday.today{background:var(--soft);border-color:#d5dfd0}.calday.blank{border:0;background:transparent}.calday span{display:flex;gap:2px;flex-wrap:wrap;margin-top:6px}.calday i{font-style:normal;font-size:11px;color:var(--accent)}.calday em{position:absolute;right:6px;bottom:5px;font-style:normal;font-size:10px;color:var(--danger)}.summary{display:grid;grid-template-columns:1fr 1fr;gap:9px}.summary div{background:#faf9f6;border-radius:14px;padding:12px}.summary b{font-size:20px;display:block;margin-top:4px}
-@media(max-width:430px){main{padding-left:12px;padding-right:12px}.title{font-size:26px}.card{padding:16px}.grid2{grid-template-columns:1fr}.hero .big{font-size:31px}}
+nav button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-size:12px;color:#555}
+nav button.active{background:#282722;color:#fff;border-color:#282722}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin:11px 0;box-shadow:0 4px 18px #00000005}
+.card h2{font-size:17px;margin:0 0 13px}
+.hero{background:#e9eee7}
+.hero .big{font-size:34px;font-weight:850}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.money{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.metric{background:#faf9f6;border-radius:16px;padding:12px}
+.metric small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+.metric strong{font-size:20px}
+.bar,.goalbar{height:8px;background:#e8e5de;border-radius:99px;overflow:hidden;margin:10px 0}
+.bar i,.goalbar i{display:block;height:100%;background:var(--accent);width:0}
+.btn{border:0;border-radius:13px;padding:10px 13px;background:#282722;color:white;font-size:14px;font-weight:650}
+.btn.secondary{background:#f0eee9;color:#333}
+.btn.danger{background:#f6e8e8;color:var(--danger)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px;font-size:15px;outline:none;font-family:inherit}
+textarea{min-height:80px;resize:vertical}
+.form{display:grid;gap:9px}
+.form label{font-size:13px;color:#555}
+.form label input,.form label select,.form label textarea{margin-top:5px}
+.task,.event,.food,.expense{display:flex;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.task:last-child,.event:last-child,.food:last-child,.expense:last-child{border-bottom:0}
+.task input{width:20px;height:20px}
+.done{text-decoration:line-through;color:var(--muted)}
+.priority{font-size:11px;padding:4px 7px;border-radius:999px;background:#f0eee9}
+.priority.high{background:#f6e8e8;color:var(--danger)}
+.priority.mid{background:#f5efe4;color:var(--warn)}
+.section{scroll-margin-top:55px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.small{font-size:12px}
+.tag{display:inline-block;padding:5px 8px;background:var(--soft);border-radius:9px;font-size:11px;color:#5f6f59}
+.note{font-size:14px;line-height:1.65}
+.status{margin-top:10px;padding:11px 12px;border-radius:13px;background:#f3f1ec;font-size:13px;line-height:1.55}
+.empty{color:var(--muted);font-size:14px;padding:6px 0}
+.footer{color:var(--muted);font-size:11px;text-align:center;margin-top:25px}
+.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:10px}
+.tabs button{border:1px solid var(--line);background:#faf9f6;border-radius:10px;padding:8px 10px;font-size:12px}
+.tabs button.sel{background:#e9eee7;border-color:#dce5d8}
+.modal{position:fixed;inset:0;background:#0006;display:none;align-items:end;justify-content:center;padding:10px;z-index:20}
+.sheet{background:white;width:min(760px,100%);max-height:90vh;overflow:auto;border-radius:24px;padding:20px}
+.sheet h3{margin:0 0 15px}
+.close{float:right;border:0;background:#f1eee8;border-radius:50%;width:32px;height:32px}
+.calendar{margin-top:4px}
+.week,.monthgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.week b{text-align:center;color:var(--muted);font-size:11px;padding:5px}
+.calday{min-height:64px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:7px;text-align:left;position:relative;color:var(--text)}
+.calday.today{background:var(--soft);border-color:#d5dfd0}
+.calday.blank{border:0;background:transparent}
+.calday span{display:flex;gap:2px;flex-wrap:wrap;margin-top:6px}
+.calday i{font-style:normal;font-size:11px;color:var(--accent)}
+.calday em{position:absolute;right:6px;bottom:5px;font-style:normal;font-size:10px;color:var(--danger)}
+@media(max-width:430px){
+ main{padding-left:12px;padding-right:12px}
+ .title{font-size:26px}
+ .card{padding:16px}
+ .grid2{grid-template-columns:1fr}
+ .hero .big{font-size:31px}
+}
 </style>
 </head>
+
 <body>
 <main>
-<div class="top"><div><div class="date" id="date"></div><div class="title">我的工作台</div></div><div class="muted" id="dayleft"></div></div>
+
+<div class="top">
+  <div>
+    <div class="date" id="date"></div>
+    <div class="title">我的工作台</div>
+  </div>
+  <div class="muted" id="dayleft"></div>
+</div>
 
 <nav id="nav">
-<button class="active" onclick="jump('home')">HOME</button>
-<button onclick="jump('money')">MONEY</button>
-<button onclick="jump('calendar')">CALENDAR</button>
-<button onclick="jump('tasks')">TASKS</button>
-<button onclick="jump('food')">FOOD</button>
-<button onclick="jump('pa')">PA</button>
-<button onclick="jump('review')">REVIEW</button>
+  <button class="active" onclick="jump('home')">HOME</button>
+  <button onclick="jump('money')">MONEY</button>
+  <button onclick="jump('calendar')">CALENDAR</button>
+  <button onclick="jump('tasks')">TASKS</button>
+  <button onclick="jump('food')">FOOD</button>
 </nav>
 
 <section class="card hero section" id="home">
-<div class="row"><h2>🏠 今天</h2><span id="health">—</span></div>
-<div class="big" id="daily">¥0.00</div>
-<div class="muted" id="moneyTip"></div>
-<div class="status" id="todayBrief"></div>
+  <div class="row">
+    <h2>🏠 今天</h2>
+    <span id="health">—</span>
+  </div>
+  <div class="big" id="daily">¥0.00</div>
+  <div class="muted" id="moneyTip"></div>
+  <div class="status" id="todayBrief"></div>
 </section>
 
 <section class="card section" id="money">
-<div class="row"><h2>💰 MONEY</h2><div class="actions"><button class="btn secondary" onclick="openMoney()">设置</button><button class="btn" onclick="openRecord()">＋ 记一笔</button></div></div>
-<div class="money">
-<div class="metric"><small>本月生活费</small><strong id="allowance">¥0</strong></div>
-<div class="metric"><small>存钱目标</small><strong id="target">¥0</strong></div>
-<div class="metric"><small>本月净支出</small><strong id="spent">¥0</strong></div>
-<div class="metric"><small>剩余可花</small><strong id="remain">¥0</strong></div>
-</div>
-<div class="bar"><i id="moneybar"></i></div>
-<div class="row muted"><span id="saveProgress"></span><span id="forecast"></span></div>
-<div class="status" id="moneyAdvice"></div>
-<div id="expenseList"></div>
+  <div class="row">
+    <h2>💰 MONEY</h2>
+    <div class="actions">
+      <button class="btn secondary" onclick="openMoney()">设置</button>
+      <button class="btn" onclick="openRecord()">＋ 记一笔</button>
+    </div>
+  </div>
+
+  <div class="money">
+    <div class="metric">
+      <small>本周期生活费</small>
+      <strong id="allowance">¥0</strong>
+    </div>
+
+    <div class="metric">
+      <small>存钱目标</small>
+      <strong id="target">¥0</strong>
+    </div>
+
+    <div class="metric">
+      <small>本周期净支出</small>
+      <strong id="spent">¥0</strong>
+    </div>
+
+    <div class="metric">
+      <small>周期剩余可花</small>
+      <strong id="remain">¥0</strong>
+    </div>
+  </div>
+
+  <div class="bar">
+    <i id="moneybar"></i>
+  </div>
+
+  <div class="muted" id="budgetPeriod" style="margin-top:9px"></div>
+
+  <div class="row muted">
+    <span id="saveProgress"></span>
+    <span id="forecast"></span>
+  </div>
+
+  <div class="status" id="moneyAdvice"></div>
+  <div id="expenseList"></div>
 </section>
 
 <section class="card section" id="calendar">
-<div class="row"><h2>📅 CALENDAR</h2><button class="btn secondary" onclick="addEvent()">＋ 添加</button></div>
-<div class="tabs" id="calTabs"></div><div id="events"></div>
+  <div class="row">
+    <h2>📅 CALENDAR</h2>
+    <button class="btn secondary" onclick="addEvent()">＋ 添加</button>
+  </div>
+
+  <div class="tabs" id="calTabs"></div>
+  <div id="events"></div>
 </section>
 
 <section class="card section" id="tasks">
-<div class="row"><h2>✅ TASKS</h2><button class="btn secondary" onclick="addTask()">＋ 添加</button></div>
-<div class="tabs">
-<button class="sel" id="taskAll" onclick="taskFilter='all';render()">全部</button>
-<button id="taskOpen" onclick="taskFilter='open';render()">未完成</button>
-<button id="taskDone" onclick="taskFilter='done';render()">已完成</button>
-</div>
-<div id="tasksList"></div>
+  <div class="row">
+    <h2>✅ TASKS</h2>
+    <button class="btn secondary" onclick="addTask()">＋ 添加</button>
+  </div>
+
+  <div class="tabs">
+    <button class="sel" id="taskAll" onclick="taskFilter='all';render()">全部</button>
+    <button id="taskOpen" onclick="taskFilter='open';render()">未完成</button>
+    <button id="taskDone" onclick="taskFilter='done';render()">已完成</button>
+  </div>
+
+  <div id="tasksList"></div>
 </section>
 
 <section class="card section" id="food">
-<div class="row"><h2>🍱 FOOD</h2><button class="btn secondary" onclick="addFood()">＋ 添加</button></div>
-<div class="status" id="foodAdvice"></div>
-<div id="foodList"></div>
+  <div class="row">
+    <h2>🍱 FOOD</h2>
+    <button class="btn secondary" onclick="addFood()">＋ 添加</button>
+  </div>
+
+  <div class="status" id="foodAdvice"></div>
+  <div id="foodList"></div>
 </section>
 
-<section class="card section" id="pa">
-<div class="row"><h2>🚀 PROJECT ALPHA</h2><button class="btn secondary" onclick="editPA()">管理</button></div>
-<div class="grid2">
-<div class="metric"><small>当前阶段</small><strong id="paStage">大一 · 起步</strong></div>
-<div class="metric"><small>整体进度</small><strong id="paProgress">0%</strong></div>
+<div class="footer">
+  V4 · 数据保存在本机浏览器中
 </div>
-<div class="alpha" id="goals" style="margin-top:12px"></div>
-<div class="status" id="paTip"></div>
-<div class="status" id="paTasks"></div>
-</section>
 
-<section class="card section" id="review">
-<div class="row"><h2>📊 REVIEW</h2><button class="btn" onclick="generateReview()">生成本月复盘</button></div>
-<div class="summary">
-<div><span class="muted">本月收入</span><b id="reviewIncome">¥0</b></div>
-<div><span class="muted">本月支出</span><b id="reviewExpense">¥0</b></div>
-<div><span class="muted">任务完成</span><b id="reviewTasks">0%</b></div>
-<div><span class="muted">PA进度</span><b id="reviewPA">0%</b></div>
-</div>
-<div class="status" id="reviewText">月底点击「生成本月复盘」，系统会根据现有记录自动分析。</div>
-</section>
-
-<div class="footer">V3 · 数据保存在本机浏览器中 · Score 已移除</div>
 </main>
 
 <div class="modal" id="modal">
-<div class="sheet">
-<button class="close" onclick="closeModal()">×</button>
-<h3 id="modalTitle"></h3>
-<div id="modalBody"></div>
-</div>
+  <div class="sheet">
+    <button class="close" onclick="closeModal()">×</button>
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+  </div>
 </div>
 
 <script>
+
 const KEY="my_dashboard_v3";
 const OLD="my_dashboard_v2";
 const LEGACY="my_dashboard_v1";
 
-let old=JSON.parse(localStorage.getItem(OLD)||localStorage.getItem(LEGACY)||"null");
+let old=JSON.parse(
+  localStorage.getItem(OLD)||
+  localStorage.getItem(LEGACY)||
+  "null"
+);
 
 let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
-allowance:old?.allowance??2000,
-target:old?.target??500,
-fixed:old?.fixed??300,
-records:(old?.records||old?.expenses||[]).map(x=>({...x,type:x.type||"expense"})),
-tasks:(old?.tasks||[]).map((x,i)=>({
-id:x.id||Date.now()+i,
-t:x.t||"",
-done:!!x.done,
-priority:x.priority||"mid",
-deadline:x.deadline||"",
-source:x.source||""
-})),
-events:old?.events||[],
-foods:old?.foods||[],
-pa:old?.pa||{
-stage:"大一 · 起步",
-goals:(old?.goals||[
-{n:"英语",p:0},
-{n:"AI Skills",p:0},
-{n:"外贸",p:0},
-{n:"教学",p:0},
-{n:"Portfolio",p:0}
-])
-},
-review:old?.review||""
+  allowance:old?.allowance??2000,
+  target:old?.target??500,
+  fixed:old?.fixed??300,
+
+  budgetStart:old?.budgetStart||(()=>{
+    let d=new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-01`
+  })(),
+
+  budgetEnd:old?.budgetEnd||(()=>{
+    let d=new Date();
+    let last=new Date(
+      d.getFullYear(),
+      d.getMonth()+1,
+      0
+    ).getDate();
+
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(last).padStart(2,"0")}`
+  })(),
+
+  records:(old?.records||old?.expenses||[]).map(x=>({
+    ...x,
+    type:x.type||"expense"
+  })),
+
+  tasks:(old?.tasks||[]).map((x,i)=>({
+    id:x.id||Date.now()+i,
+    t:x.t||"",
+    done:!!x.done,
+    priority:x.priority||"mid",
+    deadline:x.deadline||"",
+    source:x.source||""
+  })),
+
+  events:old?.events||[],
+  foods:old?.foods||[]
 };
+
+
+/* V3 → V4
+   只补预算日期，不删除已有记录、任务、日历和 FOOD 数据
+*/
+if(!data.budgetStart || !data.budgetEnd){
+
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=d.getMonth();
+
+  data.budgetStart=
+    data.budgetStart||
+    `${y}-${String(m+1).padStart(2,"0")}-01`;
+
+  data.budgetEnd=
+    data.budgetEnd||
+    `${y}-${String(m+1).padStart(2,"0")}-${String(new Date(y,m+1,0).getDate()).padStart(2,"0")}`;
+}
 
 let taskFilter="all";
 
+
 function save(){
-localStorage.setItem(KEY,JSON.stringify(data));
-render();
+  localStorage.setItem(KEY,JSON.stringify(data));
+  render();
 }
 
-function ensurePAPlan(){
-const todayD=new Date();
-const weekEnd=new Date(todayD);
-weekEnd.setDate(todayD.getDate()+(7-todayD.getDay()));
-
-const existing=new Set(data.tasks.map(x=>x.t));
-
-const templates=[
-"PA：完成本周英语能力积累",
-"PA：完成一次 AI Skills 实操",
-"PA：推进一次外贸方向学习/项目",
-"PA：整理一项可进入 Portfolio 的成果"
-];
-
-templates.forEach((t,i)=>{
-if(!existing.has(t)){
-data.tasks.push({
-id:"pa-"+Date.now()+"-"+i,
-t,
-done:false,
-priority:i===0?"high":"mid",
-deadline:weekEnd.toISOString().slice(0,10),
-source:"PA",
-auto:true
-});
-}
-});
-}
 
 function money(n){
-return "¥"+Number(n||0).toFixed(2);
+  return "¥"+Number(n||0).toFixed(2);
 }
+
+
+function localDate(d=new Date()){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+
+
+function localTimestamp(d=new Date()){
+  return `${localDate(d)}T${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}:${String(d.getSeconds()).padStart(2,"0")}`;
+}
+
 
 function today(){
-let d=new Date();
-return d.toISOString().slice(0,10);
+  return localDate();
 }
 
-function daysLeft(){
-let d=new Date();
-let last=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
-return last-d.getDate()+1;
+
+function parseLocalDate(s){
+  let [y,m,d]=String(s||"").split("-").map(Number);
+  return new Date(y,m-1,d);
 }
+
+
+function budgetDays(){
+
+  let s=parseLocalDate(data.budgetStart);
+  let e=parseLocalDate(data.budgetEnd);
+
+  if(
+    Number.isNaN(s.getTime())||
+    Number.isNaN(e.getTime())||
+    e<s
+  ){
+    return 0;
+  }
+
+  return Math.floor((e-s)/86400000)+1;
+}
+
+
+function budgetStatus(){
+
+  let t=parseLocalDate(today());
+  let s=parseLocalDate(data.budgetStart);
+  let e=parseLocalDate(data.budgetEnd);
+  let total=budgetDays();
+
+  if(!total){
+    return {
+      state:"invalid",
+      elapsed:0,
+      remaining:0,
+      future:0,
+      total:0
+    };
+  }
+
+  if(t<s){
+    return {
+      state:"before",
+      elapsed:0,
+      remaining:total,
+      future:total,
+      total
+    };
+  }
+
+  if(t>e){
+    return {
+      state:"after",
+      elapsed:total,
+      remaining:0,
+      future:0,
+      total
+    };
+  }
+
+  let elapsed=Math.floor((t-s)/86400000);
+  let remaining=total-elapsed;
+
+  return {
+    state:"active",
+    elapsed,
+    remaining,
+    future:Math.max(0,remaining-1),
+    total
+  };
+}
+
 
 function monthKey(){
-let d=new Date();
-return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+  let d=new Date();
+
+  return d.getFullYear()+
+    "-"+
+    String(d.getMonth()+1).padStart(2,"0");
 }
+
 
 function monthRecords(){
-return data.records.filter(x=>String(x.date||"").slice(0,7)===monthKey());
+  return data.records.filter(
+    x=>String(x.date||"").slice(0,7)===monthKey()
+  );
 }
+
+
+function budgetRecords(){
+
+  let s=data.budgetStart;
+  let e=data.budgetEnd;
+
+  return data.records.filter(x=>{
+    let day=String(x.date||"").slice(0,10);
+
+    return day>=s && day<=e;
+  });
+}
+
 
 function income(){
-return monthRecords()
-.filter(x=>x.type==="income")
-.reduce((a,x)=>a+Number(x.amount),0);
+
+  return budgetRecords()
+    .filter(x=>x.type==="income")
+    .reduce((a,x)=>a+Number(x.amount),0);
 }
+
 
 function spent(){
-return monthRecords()
-.filter(x=>x.type!=="income")
-.reduce((a,x)=>a+Number(x.amount),0);
+
+  return budgetRecords()
+    .filter(x=>x.type!=="income")
+    .reduce((a,x)=>a+Number(x.amount),0);
 }
+
+
+function todaySpent(){
+
+  return budgetRecords()
+    .filter(x=>
+      x.type!=="income" &&
+      String(x.date||"").slice(0,10)===today()
+    )
+    .reduce((a,x)=>a+Number(x.amount),0);
+}
+
 
 function esc(s){
-return String(s??"").replace(/[&<>"']/g,m=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#39;"
-}[m]));
+
+  return String(s??"").replace(
+    /[&<>"']/g,
+    m=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[m])
+  );
 }
+
 
 function openModal(title,body){
-document.getElementById("modalTitle").textContent=title;
-document.getElementById("modalBody").innerHTML=body;
-document.getElementById("modal").style.display="flex";
+
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalBody").innerHTML=body;
+  document.getElementById("modal").style.display="flex";
 }
+
 
 function closeModal(){
-document.getElementById("modal").style.display="none";
+  document.getElementById("modal").style.display="none";
 }
+
 
 function jump(id){
-document.getElementById(id).scrollIntoView({behavior:"smooth"});
-document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
-event?.currentTarget?.classList.add("active");
+
+  document.getElementById(id)
+    .scrollIntoView({behavior:"smooth"});
+
+  document
+    .querySelectorAll("nav button")
+    .forEach(b=>b.classList.remove("active"));
+
+  event?.currentTarget?.classList.add("active");
 }
+
 
 function render(){
-let d=new Date();
 
-document.getElementById("date").textContent=
-d.toLocaleDateString("zh-CN",{
-month:"long",
-day:"numeric",
-weekday:"long"
-});
+  let d=new Date();
 
-document.getElementById("dayleft").textContent=
-"本月剩 "+daysLeft()+" 天";
+  document.getElementById("date").textContent=
+    d.toLocaleDateString(
+      "zh-CN",
+      {
+        month:"long",
+        day:"numeric",
+        weekday:"long"
+      }
+    );
 
-let netSpent=spent();
-let totalIncome=income();
+  let st=budgetStatus();
+  let totalDays=st.total;
 
-let usable=Math.max(
-0,
-data.allowance+totalIncome-data.target-data.fixed
-);
+  document.getElementById("dayleft").textContent=
+    st.state==="active"
+      ?`预算剩 ${st.remaining} 天`
+      :st.state==="before"
+        ?`预算 ${totalDays} 天`
+        :st.state==="after"
+          ?"预算已结束"
+          :"预算日期有误";
 
-let todaySpent=monthRecords()
-.filter(x=>x.type!=="income"&&String(x.date||"").slice(0,10)===today())
-.reduce((a,x)=>a+Number(x.amount),0);
 
-let remain=Math.max(0,usable-netSpent);
-let beforeToday=Math.max(0,remain+todaySpent);
+  let netSpent=spent();
+  let totalIncome=income();
 
-let baseDaily=daysLeft()?beforeToday/daysLeft():beforeToday;
-let daily=Math.max(0,baseDaily-todaySpent);
+  let usable=Math.max(
+    0,
+    data.allowance+
+    totalIncome-
+    data.target-
+    data.fixed
+  );
 
-document.getElementById("daily").textContent=money(daily);
-document.getElementById("allowance").textContent=money(data.allowance+totalIncome);
-document.getElementById("target").textContent=money(data.target);
-document.getElementById("spent").textContent=money(netSpent);
-document.getElementById("remain").textContent=money(remain);
+  let remain=Math.max(
+    0,
+    usable-netSpent
+  );
 
-document.getElementById("moneybar").style.width=
-Math.min(100,usable?netSpent/usable*100:0)+"%";
+  let ts=todaySpent();
 
-let rate=usable?netSpent/usable:0;
-let health=document.getElementById("health");
+  let daily=0;
+  let futureDaily=0;
 
-if(remain<=0){
-health.textContent="🔴";
-document.getElementById("moneyTip").textContent=
-"预算已用尽，后续消费需要重新调整。";
-}else if(rate>.8){
-health.textContent="🟡";
-document.getElementById("moneyTip").textContent=
-"最近消费偏快，接下来尽量按每日建议额度。";
-}else{
-health.textContent="🟢";
-document.getElementById("moneyTip").textContent=
-"目前在计划内，可以按这个额度继续安排。";
+
+  /* 预算尚未开始 */
+  if(st.state==="before"){
+
+    daily=
+      totalDays?
+      usable/totalDays:
+      0;
+
+    futureDaily=daily;
+  }
+
+
+  /* 预算进行中 */
+  else if(st.state==="active"){
+
+    /*
+      beforeToday：
+      如果把今天已经花掉的钱加回去，
+      得到“今天开始时还剩多少预算”
+    */
+    let beforeToday=
+      Math.max(
+        0,
+        remain+ts
+      );
+
+    /*
+      今天开始时剩余预算 ÷ 剩余天数
+      = 今天原本可以分到的额度
+    */
+    let baseToday=
+      st.remaining?
+      beforeToday/st.remaining:
+      beforeToday;
+
+    /*
+      再直接扣除今天已经发生的支出
+    */
+    daily=
+      Math.max(
+        0,
+        baseToday-ts
+      );
+
+    /*
+      今天之后剩余预算重新分配
+    */
+    futureDaily=
+      st.future?
+      remain/st.future:
+      remain;
+  }
+
+
+  document.getElementById("daily").textContent=
+    money(daily);
+
+
+  document.getElementById("allowance").textContent=
+    money(data.allowance+totalIncome);
+
+  document.getElementById("target").textContent=
+    money(data.target);
+
+  document.getElementById("spent").textContent=
+    money(netSpent);
+
+  document.getElementById("remain").textContent=
+    money(remain);
+
+
+  document.getElementById("budgetPeriod").textContent=
+    `预算周期：${data.budgetStart} 至 ${data.budgetEnd} · 共 ${totalDays} 天`;
+
+
+  document.getElementById("moneybar").style.width=
+    Math.min(
+      100,
+      usable?
+      netSpent/usable*100:
+      0
+    )+"%";
+
+
+  let rate=
+    usable?
+    netSpent/usable:
+    0;
+
+  let health=
+    document.getElementById("health");
+
+
+  if(st.state==="before"){
+
+    health.textContent="⏳";
+
+    document.getElementById("moneyTip").textContent=
+      `预算将于 ${data.budgetStart} 开始，开始后每日计划约 ${money(daily)}。`;
+  }
+
+  else if(st.state==="after"){
+
+    health.textContent=
+      remain>0?
+      "🟢":
+      "🔴";
+
+    document.getElementById("moneyTip").textContent=
+      "本预算周期已结束，可设置新的预算周期。";
+  }
+
+  else if(remain<=0){
+
+    health.textContent="🔴";
+
+    document.getElementById("moneyTip").textContent=
+      "预算已用尽，后续消费需要重新调整。";
+  }
+
+  else if(rate>.8){
+
+    health.textContent="🟡";
+
+    document.getElementById("moneyTip").textContent=
+      `消费偏快；今天剩余 ${money(daily)}，后续每天约 ${money(futureDaily)}。`;
+  }
+
+  else{
+
+    health.textContent="🟢";
+
+    document.getElementById("moneyTip").textContent=
+      st.state==="active"
+        ?`今天还可花 ${money(daily)}；后续每天约 ${money(futureDaily)}。`
+        :"目前在计划内，可以按这个额度继续安排。";
+  }
+
+
+  let saved=Math.max(
+    0,
+    data.allowance+
+    totalIncome-
+    data.fixed-
+    netSpent
+  );
+
+
+  document.getElementById("saveProgress").textContent=
+    "预计可存 "+
+    money(saved)+
+    " / "+
+    money(data.target);
+
+
+  document.getElementById("forecast").textContent=
+    saved>=data.target
+      ?"目标可达成"
+      :"还差 "+money(data.target-saved);
+
+
+  document.getElementById("moneyAdvice").textContent=
+    totalIncome
+      ?`本预算周期有额外收入 ${money(totalIncome)}，已自动计入可用预算。`
+      :"记入收入或支出后，预算、今日额度和储蓄预测都会自动更新。";
+
+
+  let open=
+    data.tasks.filter(x=>!x.done).length;
+
+  let urgent=
+    data.tasks.filter(
+      x=>!x.done&&x.priority==="high"
+    ).length;
+
+  let near=
+    data.tasks
+      .filter(x=>!x.done&&x.deadline)
+      .sort((a,b)=>
+        a.deadline.localeCompare(b.deadline)
+      )[0];
+
+
+  document.getElementById("todayBrief").textContent=
+    open
+      ?`今天还有 ${open} 个未完成任务${urgent?"，其中 "+urgent+" 个高优先级":""}${near?`；最近 Deadline：${near.t}（${near.deadline}）`:""}。${todayEventsText()}`
+      :"今天的任务已经完成得不错。"+todayEventsText();
+
+
+  renderRecords();
+  renderTasks();
+  renderCalendar();
+  renderFood();
+  renderFoodLibrary();
 }
 
-let saved=Math.max(
-0,
-data.allowance+totalIncome-data.fixed-netSpent
-);
-
-document.getElementById("saveProgress").textContent=
-"预计可存 "+money(saved)+" / "+money(data.target);
-
-document.getElementById("forecast").textContent=
-saved>=data.target
-?"目标可达成"
-:"还差 "+money(data.target-saved);
-
-document.getElementById("moneyAdvice").textContent=
-totalIncome
-?`本月有额外收入 ${money(totalIncome)}，已自动计入可用预算；无需手动修改储蓄目标。`
-:"记入收入或支出后，预算、今日额度和储蓄预测都会自动更新。";
-
-let open=data.tasks.filter(x=>!x.done).length;
-let urgent=data.tasks.filter(x=>!x.done&&x.priority==="high").length;
-
-let near=data.tasks
-.filter(x=>!x.done&&x.deadline)
-.sort((a,b)=>a.deadline.localeCompare(b.deadline))[0];
-
-document.getElementById("todayBrief").textContent=
-open
-?`今天还有 ${open} 个未完成任务${urgent?"，其中 "+urgent+" 个高优先级":""}${near?`；最近 Deadline：${near.t}（${near.deadline}）`:""}。${todayEventsText()}`
-:"今天的任务已经完成得不错。"+todayEventsText();
-
-renderRecords();
-renderTasks();
-renderCalendar();
-renderFood();
-renderPA();
-renderReview();
-}
 
 function renderRecords(){
-let arr=monthRecords().slice().reverse().slice(0,8);
 
-document.getElementById("expenseList").innerHTML=
-arr.length
-?'<div class="muted" style="margin-top:14px">最近记录</div>'+
-arr.map(x=>`
-<div class="expense">
-<span>${x.type==="income"?"💵":"💸"}</span>
-<div style="flex:1">
-<b>${esc(x.note||x.cat||"未命名")}</b>
-<div class="muted">${esc(x.cat||"")} · ${String(x.date||"").slice(0,10)}</div>
-</div>
-<strong>${x.type==="income"?"+":"-"}${money(x.amount).slice(1)}</strong>
-<button class="btn danger" style="padding:7px 9px" onclick="delRecord('${x.id}')">删</button>
-</div>
-`).join("")
-:'<div class="empty">本月还没有记录。</div>';
+  let arr=
+    monthRecords()
+      .slice()
+      .reverse()
+      .slice(0,8);
+
+
+  document.getElementById("expenseList").innerHTML=
+    arr.length
+
+      ?'<div class="muted" style="margin-top:14px">最近记录</div>'+
+       arr.map(x=>
+        `<div class="expense">
+          <span>${x.type==="income"?"💵":"💸"}</span>
+
+          <div style="flex:1">
+            <b>${esc(x.note||x.cat||"未命名")}</b>
+            <div class="muted">
+              ${esc(x.cat||"")} · ${String(x.date||"").slice(0,10)}
+            </div>
+          </div>
+
+          <strong>
+            ${x.type==="income"?"+":"-"}${money(x.amount).slice(1)}
+          </strong>
+
+          <button
+            class="btn danger"
+            style="padding:7px 9px"
+            onclick="delRecord('${x.id}')"
+          >
+            删
+          </button>
+        </div>`
+       ).join("")
+
+      :'<div class="empty">本月还没有记录。</div>';
 }
+
 
 function openRecord(){
-openModal("记一笔 💰",`
-<div class="form">
-<label>类型
-<select id="r0">
-<option value="expense">支出</option>
-<option value="income">收入</option>
-</select>
-</label>
 
-<label>金额
-<input id="r1" type="number" inputmode="decimal" step="0.01" placeholder="例如 68">
-</label>
+  openModal(
+    "记一笔 💰",
 
-<label>类别
-<select id="r2">
-<option>🍚 吃饭</option>
-<option>🧋 饮料</option>
-<option>🚇 交通</option>
-<option>🛍️ 购物</option>
-<option>📚 学习</option>
-<option>🎮 娱乐</option>
-<option>💄 日用品</option>
-<option>🎁 红包/礼金</option>
-<option>💼 兼职/其他收入</option>
-<option>📦 其他</option>
-</select>
-</label>
+    `<div class="form">
 
-<label>备注
-<input id="r3" placeholder="例如 周边 / 午饭 / 红包">
-</label>
+      <label>
+        类型
+        <select id="r0">
+          <option value="expense">支出</option>
+          <option value="income">收入</option>
+        </select>
+      </label>
 
-<button class="btn" onclick="addRecord()">记录并重新计算</button>
-</div>
-`);
+      <label>
+        金额
+        <input
+          id="r1"
+          type="number"
+          inputmode="decimal"
+          step="0.01"
+          placeholder="例如 68"
+        >
+      </label>
+
+      <label>
+        类别
+        <select id="r2">
+          <option>🍚 吃饭</option>
+          <option>🧋 饮料</option>
+          <option>🚇 交通</option>
+          <option>🛍️ 购物</option>
+          <option>📚 学习</option>
+          <option>🎮 娱乐</option>
+          <option>💄 日用品</option>
+          <option>🎁 红包/礼金</option>
+          <option>💼 兼职/其他收入</option>
+          <option>📦 其他</option>
+        </select>
+      </label>
+
+      <label>
+        备注
+        <input
+          id="r3"
+          placeholder="例如 周边 / 午饭 / 红包"
+        >
+      </label>
+
+      <button
+        class="btn"
+        onclick="addRecord()"
+      >
+        记录并重新计算
+      </button>
+
+    </div>`
+  );
 }
+
 
 function addRecord(){
-let a=+document.getElementById("r1").value;
-if(!(a>0))return;
 
-data.records.push({
-id:String(Date.now()),
-amount:a,
-type:document.getElementById("r0").value,
-cat:document.getElementById("r2").value,
-note:document.getElementById("r3").value,
-date:new Date().toISOString()
-});
+  let a=
+    +document.getElementById("r1").value;
 
-save();
-closeModal();
+  if(!(a>0))return;
+
+  data.records.push({
+
+    id:String(Date.now()),
+
+    amount:a,
+
+    type:
+      document.getElementById("r0").value,
+
+    cat:
+      document.getElementById("r2").value,
+
+    note:
+      document.getElementById("r3").value,
+
+    date:
+      localTimestamp()
+  });
+
+  save();
+  closeModal();
 }
+
 
 function delRecord(id){
-data.records=data.records.filter(x=>x.id!==id);
-save();
+
+  data.records=
+    data.records.filter(x=>x.id!==id);
+
+  save();
 }
+
 
 function openMoney(){
-openModal("本月计划",`
-<div class="form">
-<label>基础生活费
-<input id="m1" type="number" value="${data.allowance}">
-</label>
 
-<label>储蓄目标
-<input id="m2" type="number" value="${data.target}">
-</label>
+  openModal(
+    "预算计划",
 
-<label>固定支出
-<input id="m3" type="number" value="${data.fixed}">
-</label>
+    `<div class="form">
 
-<button class="btn" onclick="saveMoney()">保存</button>
-</div>
-`);
+      <label>
+        基础生活费
+        <input
+          id="m1"
+          type="number"
+          value="${data.allowance}"
+        >
+      </label>
+
+      <label>
+        储蓄目标
+        <input
+          id="m2"
+          type="number"
+          value="${data.target}"
+        >
+      </label>
+
+      <label>
+        固定支出
+        <input
+          id="m3"
+          type="number"
+          value="${data.fixed}"
+        >
+      </label>
+
+      <label>
+        预算开始日
+        <input
+          id="m4"
+          type="date"
+          value="${data.budgetStart}"
+        >
+      </label>
+
+      <label>
+        预算结束日
+        <input
+          id="m5"
+          type="date"
+          value="${data.budgetEnd}"
+        >
+      </label>
+
+      <button
+        class="btn"
+        onclick="saveMoney()"
+      >
+        保存
+      </button>
+
+    </div>`
+  );
 }
+
 
 function saveMoney(){
-data.allowance=+document.getElementById("m1").value||0;
-data.target=+document.getElementById("m2").value||0;
-data.fixed=+document.getElementById("m3").value||0;
-save();
-closeModal();
+
+  let start=
+    document.getElementById("m4").value;
+
+  let end=
+    document.getElementById("m5").value;
+
+
+  if(
+    !start||
+    !end||
+    end<start
+  ){
+
+    alert("预算结束日不能早于开始日");
+    return;
+  }
+
+
+  data.allowance=
+    +document.getElementById("m1").value||0;
+
+  data.target=
+    +document.getElementById("m2").value||0;
+
+  data.fixed=
+    +document.getElementById("m3").value||0;
+
+  data.budgetStart=start;
+  data.budgetEnd=end;
+
+
+  save();
+  closeModal();
 }
+
 
 function renderTasks(){
-let arr=data.tasks
-.filter(x=>taskFilter==="all"||taskFilter==="open"
-?!x.done:x.done)
-.sort((a,b)=>
-(a.done-b.done)||
-(a.deadline||"9999").localeCompare(b.deadline||"9999")||
-(a.priority==="high"?0:a.priority==="mid"?1:2)-
-(b.priority==="high"?0:b.priority==="mid"?1:2)
-);
 
-document.getElementById("tasksList").innerHTML=
-arr.length
-?arr.map(x=>`
-<div class="task">
-<input type="checkbox" ${x.done?"checked":""} onchange="toggleTask('${x.id}')">
+  let arr=
+    data.tasks
+      .filter(
+        x=>
+          taskFilter==="all"||
+          taskFilter==="open"
+            ?!x.done
+            :x.done
+      )
+      .sort(
+        (a,b)=>
+          (a.done-b.done)||
+          (a.deadline||"9999").localeCompare(
+            b.deadline||"9999"
+          )||
+          (a.priority==="high"?0:a.priority==="mid"?1:2)-
+          (b.priority==="high"?0:b.priority==="mid"?1:2)
+      );
 
-<div style="flex:1">
-<div class="${x.done?"done":""}">${esc(x.t)}</div>
-<div class="muted">
-${x.deadline?"截止 "+esc(x.deadline):"无截止日期"}
-${x.source?` · ${esc(x.source)}`:""}
-</div>
-</div>
 
-<span class="priority ${x.priority==="high"?"high":x.priority==="mid"?"mid":""}">
-${x.priority==="high"?"高":x.priority==="mid"?"中":"低"}
-</span>
+  document.getElementById("tasksList").innerHTML=
 
-<button class="btn danger" style="padding:7px 9px" onclick="delTask('${x.id}')">删</button>
-</div>
-`).join("")
-:'<div class="empty">没有符合条件的任务。</div>';
+    arr.length
 
-["taskAll","taskOpen","taskDone"].forEach(id=>
-document.getElementById(id).classList.remove("sel")
-);
+      ?arr.map(x=>
+        `<div class="task">
 
-document.getElementById(
-taskFilter==="all"?"taskAll":
-taskFilter==="open"?"taskOpen":"taskDone"
-).classList.add("sel");
+          <input
+            type="checkbox"
+            ${x.done?"checked":""}
+            onchange="toggleTask('${x.id}')"
+          >
+
+          <div style="flex:1">
+
+            <div class="${x.done?"done":""}">
+              ${esc(x.t)}
+            </div>
+
+            <div class="muted">
+              ${x.deadline
+                ?"截止 "+esc(x.deadline)
+                :"无截止日期"}
+              ${x.source
+                ?` · ${esc(x.source)}`
+                :""}
+            </div>
+
+          </div>
+
+          <span
+            class="priority ${
+              x.priority==="high"
+                ?"high"
+                :x.priority==="mid"
+                  ?"mid"
+                  :""
+            }"
+          >
+            ${
+              x.priority==="high"
+                ?"高"
+                :x.priority==="mid"
+                  ?"中"
+                  :"低"
+            }
+          </span>
+
+          <button
+            class="btn danger"
+            style="padding:7px 9px"
+            onclick="delTask('${x.id}')"
+          >
+            删
+          </button>
+
+        </div>`
+       ).join("")
+
+      :'<div class="empty">没有符合条件的任务。</div>';
+
+
+  ["taskAll","taskOpen","taskDone"]
+    .forEach(
+      id=>
+        document
+          .getElementById(id)
+          .classList
+          .remove("sel")
+    );
+
+
+  document
+    .getElementById(
+      taskFilter==="all"
+        ?"taskAll"
+        :taskFilter==="open"
+          ?"taskOpen"
+          :"taskDone"
+    )
+    .classList
+    .add("sel");
 }
+
 
 function addTask(){
-openModal("添加待办",`
-<div class="form">
 
-<label>任务
-<input id="t1" placeholder="例如：完成英语作业">
-</label>
+  openModal(
+    "添加待办",
 
-<label>优先级
-<select id="t2">
-<option value="high">高</option>
-<option value="mid" selected>中</option>
-<option value="low">低</option>
-</select>
-</label>
+    `<div class="form">
 
-<label>Deadline
-<input id="t3" type="date">
-</label>
+      <label>
+        任务
+        <input
+          id="t1"
+          placeholder="例如：完成英语作业"
+        >
+      </label>
 
-<label>来源
-<select id="t4">
-<option value="">普通任务</option>
-<option>PA</option>
-<option>课程</option>
-<option>财务</option>
-<option>个人</option>
-</select>
-</label>
+      <label>
+        优先级
+        <select id="t2">
+          <option value="high">高</option>
+          <option value="mid" selected>中</option>
+          <option value="low">低</option>
+        </select>
+      </label>
 
-<button class="btn" onclick="doAddTask()">添加</button>
-</div>
-`);
+      <label>
+        Deadline
+        <input id="t3" type="date">
+      </label>
+
+      <label>
+        来源
+        <select id="t4">
+          <option value="">普通任务</option>
+          <option>PA</option>
+          <option>课程</option>
+          <option>财务</option>
+          <option>个人</option>
+        </select>
+      </label>
+
+      <button
+        class="btn"
+        onclick="doAddTask()"
+      >
+        添加
+      </button>
+
+    </div>`
+  );
 }
+
 
 function doAddTask(){
-let t=document.getElementById("t1").value.trim();
-if(!t)return;
 
-data.tasks.push({
-id:String(Date.now()),
-t,
-done:false,
-priority:document.getElementById("t2").value,
-deadline:document.getElementById("t3").value,
-source:document.getElementById("t4").value
-});
+  let t=
+    document.getElementById("t1").value.trim();
 
-save();
-closeModal();
+  if(!t)return;
+
+  data.tasks.push({
+
+    id:String(Date.now()),
+
+    t,
+
+    done:false,
+
+    priority:
+      document.getElementById("t2").value,
+
+    deadline:
+      document.getElementById("t3").value,
+
+    source:
+      document.getElementById("t4").value
+  });
+
+  save();
+  closeModal();
 }
+
 
 function toggleTask(id){
-let x=data.tasks.find(t=>t.id===id);
-if(x)x.done=!x.done;
-save();
+
+  let x=
+    data.tasks.find(t=>t.id===id);
+
+  if(x)x.done=!x.done;
+
+  save();
 }
+
 
 function delTask(id){
-data.tasks=data.tasks.filter(x=>x.id!==id);
-save();
+
+  data.tasks=
+    data.tasks.filter(x=>x.id!==id);
+
+  save();
 }
+
 
 function renderCalendar(){
-let now=new Date();
-let y=now.getFullYear();
-let m=now.getMonth();
-let first=new Date(y,m,1);
-let days=new Date(y,m+1,0).getDate();
-let offset=first.getDay();
 
-let cells="";
+  let now=new Date();
 
-for(let i=0;i<offset;i++)
-cells+='<div class="calday blank"></div>';
+  let y=now.getFullYear();
+  let m=now.getMonth();
 
-for(let day=1;day<=days;day++){
+  let first=new Date(y,m,1);
+  let days=new Date(y,m+1,0).getDate();
+  let offset=first.getDay();
 
-let ds=
-`${y}-${String(m+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+  let cells="";
 
-let ts=data.tasks.filter(x=>x.deadline===ds);
-let es=data.events.filter(x=>x.date===ds);
-let todayCls=ds===today()?" today":"";
 
-let dots=[
-...ts.map(x=>x.done?"✓":"•"),
-...es.map(()=>"+")
-].slice(0,4);
+  for(let i=0;i<offset;i++){
 
-cells+=`
-<button class="calday${todayCls}" onclick="showCalendarDay('${ds}')">
-<b>${day}</b>
-<span>${dots.map(d=>`<i>${d}</i>`).join("")}</span>
-${ts.length?`<em>${ts.length}</em>`:""}
-</button>
-`;
+    cells+=
+      '<div class="calday blank"></div>';
+  }
+
+
+  for(let day=1;day<=days;day++){
+
+    let ds=
+      `${y}-${String(m+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+
+    let ts=
+      data.tasks.filter(
+        x=>x.deadline===ds
+      );
+
+    let es=
+      data.events.filter(
+        x=>x.date===ds
+      );
+
+    let todayCls=
+      ds===today()
+        ?" today"
+        :"";
+
+    let dots=[
+      ...ts.map(x=>x.done?"✓":"•"),
+      ...es.map(() => "+")
+    ].slice(0,4);
+
+
+    cells+=
+      `<button
+        class="calday${todayCls}"
+        onclick="showCalendarDay('${ds}')"
+      >
+        <b>${day}</b>
+
+        <span>
+          ${dots.map(
+            d=>`<i>${d}</i>`
+          ).join("")}
+        </span>
+
+        ${
+          ts.length
+            ?`<em>${ts.length}</em>`
+            :""
+        }
+      </button>`;
+  }
+
+
+  document.getElementById("calTabs").innerHTML=
+    `<button onclick="changeMonth(-1)">‹</button>
+     <button class="sel">${y}年${m+1}月</button>
+     <button onclick="changeMonth(1)">›</button>
+     <button onclick="jumpToday()">今天</button>`;
+
+
+  document.getElementById("events").innerHTML=
+    `<div class="calendar">
+
+      <div class="week">
+        ${["日","一","二","三","四","五","六"]
+          .map(x=>`<b>${x}</b>`)
+          .join("")}
+      </div>
+
+      <div class="monthgrid">
+        ${cells}
+      </div>
+
+    </div>
+
+    <div
+      id="calDetail"
+      class="status"
+    >
+      点日期查看当天 Deadline。任务的 Deadline 会自动出现在这里，无需重复录入。
+    </div>`;
+
+
+  window.calendarCursor={y,m};
 }
 
-document.getElementById("calTabs").innerHTML=`
-<button onclick="changeMonth(-1)">‹</button>
-<button class="sel">${y}年${m+1}月</button>
-<button onclick="changeMonth(1)">›</button>
-<button onclick="jumpToday()">今天</button>
-`;
-
-document.getElementById("events").innerHTML=`
-<div class="calendar">
-<div class="week">
-${["日","一","二","三","四","五","六"].map(x=>`<b>${x}</b>`).join("")}
-</div>
-
-<div class="monthgrid">${cells}</div>
-</div>
-
-<div id="calDetail" class="status">
-点日期查看当天 Deadline。任务的 Deadline 会自动出现在这里，无需重复录入。
-</div>
-`;
-
-window.calendarCursor={y,m};
-}
 
 function changeMonth(delta){
-let c=window.calendarCursor||
-{y:new Date().getFullYear(),m:new Date().getMonth()};
 
-let d=new Date(c.y,c.m+delta,1);
+  let c=
+    window.calendarCursor||
+    {
+      y:new Date().getFullYear(),
+      m:new Date().getMonth()
+    };
 
-window.calendarCursor={
-y:d.getFullYear(),
-m:d.getMonth()
-};
+  let d=
+    new Date(
+      c.y,
+      c.m+delta,
+      1
+    );
 
-renderCalendar();
+  window.calendarCursor={
+    y:d.getFullYear(),
+    m:d.getMonth()
+  };
+
+  renderCalendar();
 }
+
 
 function jumpToday(){
-window.calendarCursor={
-y:new Date().getFullYear(),
-m:new Date().getMonth()
-};
 
-renderCalendar();
-showCalendarDay(today());
+  window.calendarCursor={
+    y:new Date().getFullYear(),
+    m:new Date().getMonth()
+  };
+
+  renderCalendar();
+  showCalendarDay(today());
 }
+
 
 function showCalendarDay(date){
 
-let ts=data.tasks.filter(x=>x.deadline===date);
-let es=data.events.filter(x=>x.date===date);
+  let ts=
+    data.tasks.filter(
+      x=>x.deadline===date
+    );
 
-let box=document.getElementById("calDetail");
-if(!box)return;
+  let es=
+    data.events.filter(
+      x=>x.date===date
+    );
 
-let html=`<b>${date}</b>`;
+  let box=
+    document.getElementById("calDetail");
 
-if(ts.length)
-html+=`
-<div style="margin-top:7px">
-${ts.map(x=>`
-<div>📌 ${esc(x.t)} ${x.done?"✓":"· "+(x.priority==="high"?"高优先级":"")}</div>
-`).join("")}
-</div>
-`;
+  if(!box)return;
 
-if(es.length)
-html+=`
-<div style="margin-top:7px">
-${es.map(x=>`
-<div>📅 ${esc(x.title)} · ${esc(x.type||"事项")}</div>
-`).join("")}
-</div>
-`;
 
-if(!ts.length&&!es.length)
-html+=`
-<div class="muted" style="margin-top:7px">
-当天没有 Deadline。
-</div>
-`;
+  let html=`<b>${date}</b>`;
 
-box.innerHTML=html;
+
+  if(ts.length){
+
+    html+=
+      `<div style="margin-top:7px">
+        ${
+          ts.map(x=>
+            `<div>
+              📌 ${esc(x.t)}
+              ${
+                x.done
+                  ?"✓"
+                  :"· "+(
+                    x.priority==="high"
+                      ?"高优先级"
+                      :""
+                  )
+              }
+            </div>`
+          ).join("")
+        }
+      </div>`;
+  }
+
+
+  if(es.length){
+
+    html+=
+      `<div style="margin-top:7px">
+        ${
+          es.map(x=>
+            `<div>
+              📅 ${esc(x.title)} · ${esc(x.type||"事项")}
+            </div>`
+          ).join("")
+        }
+      </div>`;
+  }
+
+
+  if(!ts.length&&!es.length){
+
+    html+=
+      `<div
+        class="muted"
+        style="margin-top:7px"
+      >
+        当天没有 Deadline。
+      </div>`;
+  }
+
+
+  box.innerHTML=html;
 }
+
 
 function todayEventsText(){
-let n=data.events.filter(x=>x.date===today()).length;
-return n?` 今天还有 ${n} 个日历事项。`:"";
+
+  let n=
+    data.events.filter(
+      x=>x.date===today()
+    ).length;
+
+  return n
+    ?` 今天还有 ${n} 个日历事项。`
+    :"";
 }
+
 
 function addEvent(){
-openModal("添加日历事项",`
-<div class="form">
 
-<label>日期
-<input id="c1" type="date" value="${today()}">
-</label>
+  openModal(
+    "添加日历事项",
 
-<label>事项
-<input id="c2" placeholder="课程 / Deadline / PA / 特殊日期">
-</label>
+    `<div class="form">
 
-<label>类型
-<select id="c3">
-<option>课程</option>
-<option>Deadline</option>
-<option>PA</option>
-<option>财务</option>
-<option>节日</option>
-<option>特殊日期</option>
-</select>
-</label>
+      <label>
+        日期
+        <input
+          id="c1"
+          type="date"
+          value="${today()}"
+        >
+      </label>
 
-<label>备注
-<input id="c4">
-</label>
+      <label>
+        事项
+        <input
+          id="c2"
+          placeholder="课程 / Deadline / 特殊日期"
+        >
+      </label>
 
-<button class="btn" onclick="doAddEvent()">添加</button>
-</div>
-`);
+      <label>
+        类型
+        <select id="c3">
+          <option>课程</option>
+          <option>Deadline</option>
+          <option>财务</option>
+          <option>节日</option>
+          <option>特殊日期</option>
+        </select>
+      </label>
+
+      <label>
+        备注
+        <input id="c4">
+      </label>
+
+      <button
+        class="btn"
+        onclick="doAddEvent()"
+      >
+        添加
+      </button>
+
+    </div>`
+  );
 }
+
 
 function doAddEvent(){
-let title=document.getElementById("c2").value.trim();
-if(!title)return;
 
-data.events.push({
-id:String(Date.now()),
-date:document.getElementById("c1").value,
-title,
-type:document.getElementById("c3").value,
-note:document.getElementById("c4").value
-});
+  let title=
+    document
+      .getElementById("c2")
+      .value
+      .trim();
 
-save();
-closeModal();
+  if(!title)return;
+
+
+  data.events.push({
+
+    id:String(Date.now()),
+
+    date:
+      document.getElementById("c1").value,
+
+    title,
+
+    type:
+      document.getElementById("c3").value,
+
+    note:
+      document.getElementById("c4").value
+  });
+
+
+  save();
+  closeModal();
 }
+
 
 function delEvent(id){
-data.events=data.events.filter(x=>x.id!==id);
-save();
+
+  data.events=
+    data.events.filter(
+      x=>x.id!==id
+    );
+
+  save();
 }
 
-function renderPA(){
-
-let p=Math.round(
-data.pa.goals.reduce((a,g)=>a+Number(g.p||0),0)/
-Math.max(1,data.pa.goals.length)
-);
-
-document.getElementById("paStage").textContent=data.pa.stage;
-document.getElementById("paProgress").textContent=p+"%";
-
-document.getElementById("goals").innerHTML=
-data.pa.goals.map(g=>`
-<div class="goal">
-<span>${esc(g.n)}</span>
-<b>${g.p}%</b>
-<div class="goalbar">
-<i style="width:${Math.max(0,Math.min(100,g.p))}%"></i>
-</div>
-</div>
-`).join("");
-
-document.getElementById("paTip").textContent=
-"PA 进度只在一个地方维护；与 PA 来源的任务联动，完成任务后可在这里继续调整实际成果。";
-
-let paOpen=data.tasks.filter(
-x=>!x.done&&x.source==="PA"
-).length;
-
-document.getElementById("paTasks").textContent=
-paOpen
-?`当前还有 ${paOpen} 个 PA 待办，优先完成它们。`
-:"当前没有未完成的 PA 待办。";
-}
-
-function editPA(){
-openModal("Project Alpha",`
-<div class="form">
-
-<label>当前阶段
-<input id="p0" value="${esc(data.pa.stage)}">
-</label>
-
-${data.pa.goals.map((g,i)=>`
-<label>
-${esc(g.n)} 进度
-<input id="p${i+1}" type="number" min="0" max="100" value="${g.p}">
-</label>
-`).join("")}
-
-<button class="btn" onclick="savePA()">保存</button>
-</div>
-`);
-}
-
-function savePA(){
-data.pa.stage=
-document.getElementById("p0").value.trim()||
-"大一 · 起步";
-
-data.pa.goals.forEach((g,i)=>
-g.p=Math.max(
-0,
-Math.min(
-100,
-+document.getElementById("p"+(i+1)).value||0
-)
-)
-);
-
-save();
-closeModal();
-}
 
 function foodSeed(){
 
-const d=new Date();
-const key=d.toISOString().slice(0,10);
+  const key=today();
 
-const saved=
-JSON.parse(localStorage.getItem("food_daily_v2")||"{}");
+  const saved=
+    JSON.parse(
+      localStorage.getItem("food_daily_v2")||"{}"
+    );
 
-if(saved.key===key)return saved.items;
 
-const options=[
-["早餐","鸡蛋 + 全麦面包 + 无糖豆浆","约 ¥8–12","主食 + 蛋白质"],
-["午餐","米饭 + 清蒸/白切鸡 + 一份绿叶菜","约 ¥15–20","主食 + 蛋白质 + 蔬菜"],
-["晚餐","米饭/杂粮饭 + 鱼或豆腐 + 两份蔬菜","约 ¥15–20","清淡、均衡"]
-];
+  if(saved.key===key)
+    return saved.items;
 
-localStorage.setItem(
-"food_daily_v2",
-JSON.stringify({key,items:options})
-);
 
-return options;
+  const options=[
+
+    [
+      "早餐",
+      "鸡蛋 + 全麦面包 + 无糖豆浆",
+      "约 ¥8–12",
+      "主食 + 蛋白质"
+    ],
+
+    [
+      "午餐",
+      "米饭 + 清蒸/白切鸡 + 一份绿叶菜",
+      "约 ¥15–20",
+      "主食 + 蛋白质 + 蔬菜"
+    ],
+
+    [
+      "晚餐",
+      "米饭/杂粮饭 + 鱼或豆腐 + 两份蔬菜",
+      "约 ¥15–20",
+      "清淡、均衡"
+    ]
+
+  ];
+
+
+  localStorage.setItem(
+    "food_daily_v2",
+    JSON.stringify({
+      key,
+      items:options
+    })
+  );
+
+
+  return options;
 }
+
 
 function renderFood(){
 
-let rec=foodSeed();
+  let rec=foodSeed();
 
-let r=monthRecords();
+  let r=monthRecords();
 
-let foodSpend=r
-.filter(x=>x.type!=="income"&&(x.cat||"").includes("吃饭"))
-.reduce((a,x)=>a+Number(x.amount),0);
+  let foodSpend=
+    r
+      .filter(
+        x=>
+          x.type!=="income"&&
+          (x.cat||"").includes("吃饭")
+      )
+      .reduce(
+        (a,x)=>a+Number(x.amount),
+        0
+      );
 
-document.getElementById("foodAdvice").innerHTML=`
-<b>今日自动推荐</b><br>
 
-${rec.map(x=>`
-<div style="margin-top:7px">
-🍱 <b>${x[0]}</b>：${esc(x[1])}
-<span class="muted"> · ${x[2]} · ${x[3]}</span>
-</div>
-`).join("")}
+  document.getElementById("foodAdvice").innerHTML=
+    `<b>今日自动推荐</b><br>
 
-<div class="muted" style="margin-top:9px">
-本月已记录餐饮支出：${money(foodSpend)}。
-推荐会优先考虑预算和搭配，不要求你每天维护食谱库。
-</div>
-`;
+    ${
+      rec.map(x=>
+        `<div style="margin-top:7px">
+          🍱 <b>${x[0]}</b>：
+          ${esc(x[1])}
+          <span class="muted">
+            · ${x[2]} · ${x[3]}
+          </span>
+        </div>`
+      ).join("")
+    }
 
-let saved=data.foods.length
-?data.foods.map(x=>`
-<div class="food">
-<div style="flex:1">
-<b>${esc(x.name)}</b>
-<div class="muted">
-${esc(x.meal||"三餐")} ·
-${esc(x.budget||"预算未设")} ·
-${esc(x.note||"")}
-</div>
-</div>
+    <div
+      class="muted"
+      style="margin-top:9px"
+    >
+      本月已记录餐饮支出：${money(foodSpend)}。
+      推荐会优先考虑预算和搭配，不要求你每天维护食谱库。
+    </div>`;
 
-<button class="btn danger" style="padding:7px 9px"
-onclick="delFood('${x.id}')">删</button>
-</div>
-`).join("")
-:'<div class="empty">你自己收藏的食谱/食堂备选会放在这里；每日推荐不需要手动添加。</div>';
 
-document.getElementById("foodList").innerHTML=`
-<div class="actions" style="margin:12px 0">
+  let saved=
+    data.foods.length
 
-<button class="btn" onclick="photoFood()">
-📷 上传今日饮食照片
-</button>
+      ?data.foods.map(x=>
+        `<div class="food">
 
-<button class="btn secondary" onclick="analyzeMenu()">
-🔎 食堂 / 外卖分析
-</button>
+          <div style="flex:1">
 
-<button class="btn secondary" onclick="addFood()">
-＋ 收藏食谱
-</button>
+            <b>${esc(x.name)}</b>
 
-</div>
+            <div class="muted">
+              ${esc(x.meal||"三餐")}
+              · ${esc(x.budget||"预算未设")}
+              · ${esc(x.note||"")}
+            </div>
 
-<div id="foodAnalysis" class="status">
-拍照记录后，这里显示实际摄入的估算分析。
-图片分析只能提供估算，不会伪装成精确营养检测。
-</div>
+          </div>
 
-<div class="status">
-<b>🍽️ 食堂 / 外卖分析库</b>
-<div id="foodLibrary" style="margin-top:8px"></div>
-</div>
+          <button
+            class="btn danger"
+            style="padding:7px 9px"
+            onclick="delFood('${x.id}')"
+          >
+            删
+          </button>
 
-${saved}
-`;
+        </div>`
+       ).join("")
 
-renderFoodLibrary();
+      :'<div class="empty">你自己收藏的食谱/食堂备选会放在这里；每日推荐不需要手动添加。</div>';
+
+
+  document.getElementById("foodList").innerHTML=
+
+    `<div
+      class="actions"
+      style="margin:12px 0"
+    >
+
+      <button
+        class="btn"
+        onclick="photoFood()"
+      >
+        📷 上传今日饮食照片
+      </button>
+
+      <button
+        class="btn secondary"
+        onclick="analyzeMenu()"
+      >
+        🔎 食堂 / 外卖分析
+      </button>
+
+      <button
+        class="btn secondary"
+        onclick="addFood()"
+      >
+        ＋ 收藏食谱
+      </button>
+
+    </div>
+
+    <div
+      id="foodAnalysis"
+      class="status"
+    >
+      拍照记录后，这里显示实际摄入的估算分析。
+      图片分析只能提供估算，不会伪装成精确营养检测。
+    </div>
+
+    <div class="status">
+
+      <b>🍽️ 食堂 / 外卖分析库</b>
+
+      <div
+        id="foodLibrary"
+        style="margin-top:8px"
+      ></div>
+
+    </div>
+
+    ${saved}`;
 }
+
 
 function photoFood(){
-openModal("记录今日饮食",`
-<div class="form">
 
-<label>上传照片
-<input id="foodPhoto" type="file" accept="image/*">
-</label>
+  openModal(
+    "记录今日饮食",
 
-<label>补充说明（可选）
-<textarea id="foodNote" placeholder="例如：这是午饭，我把一半米饭吃完了"></textarea>
-</label>
+    `<div class="form">
 
-<button class="btn" onclick="analyzeFood()">
-分析实际摄入
-</button>
+      <label>
+        上传照片
+        <input
+          id="foodPhoto"
+          type="file"
+          accept="image/*"
+        >
+      </label>
 
-</div>
-`);
+      <label>
+        补充说明（可选）
+        <textarea
+          id="foodNote"
+          placeholder="例如：这是午饭，我把一半米饭吃完了"
+        ></textarea>
+      </label>
+
+      <button
+        class="btn"
+        onclick="analyzeFood()"
+      >
+        分析实际摄入
+      </button>
+
+    </div>`
+  );
 }
+
 
 function analyzeFood(){
 
-const note=
-document.getElementById("foodNote").value.trim();
+  const note=
+    document
+      .getElementById("foodNote")
+      .value
+      .trim();
 
-closeModal();
+  closeModal();
 
-const box=document.getElementById("foodAnalysis");
 
-if(box)
-box.innerHTML=`
-<b>📷 今日实际摄入记录</b><br>
-${note?`你补充：${esc(note)}<br>`:"已收到饮食记录。"}
+  const box=
+    document.getElementById("foodAnalysis");
 
-<span class="muted">
-营养分析应基于实际图片内容进行估算；
-开发接入图像模型后，会在这里识别食物并给出蛋白质、碳水、脂肪、蔬果搭配等简明结果。
-当前版本先保留入口，不虚构识别结果。
-</span>
-`;
+
+  if(box){
+
+    box.innerHTML=
+      `<b>📷 今日实际摄入记录</b><br>
+      ${
+        note
+          ?`你补充：${esc(note)}<br>`
+          :"已收到饮食记录。"
+      }
+
+      <span class="muted">
+        营养分析应基于实际图片内容进行估算；
+        当前版本先保留入口，不虚构识别结果。
+      </span>`;
+  }
 }
+
 
 function analyzeMenu(){
-openModal("食堂 / 外卖分析",`
-<div class="form">
 
-<label>上传菜单/菜品/外卖截图
-<input id="menuPhoto" type="file" accept="image/*">
-</label>
+  openModal(
+    "食堂 / 外卖分析",
 
-<label>店名/食堂窗口（可选）
-<input id="menuShop" placeholder="例如：一饭二楼 / XX外卖店">
-</label>
+    `<div class="form">
 
-<label>补充信息（可选）
-<textarea id="menuNote" placeholder="例如：想点午饭，预算 ¥20"></textarea>
-</label>
+      <label>
+        上传菜单/菜品/外卖截图
+        <input
+          id="menuPhoto"
+          type="file"
+          accept="image/*"
+        >
+      </label>
 
-<button class="btn" onclick="saveMenuAnalysis()">
-保存分析记录
-</button>
+      <label>
+        店名/食堂窗口（可选）
+        <input
+          id="menuShop"
+          placeholder="例如：一饭二楼 / XX外卖店"
+        >
+      </label>
 
-</div>
-`);
+      <label>
+        补充信息（可选）
+        <textarea
+          id="menuNote"
+          placeholder="例如：想点午饭，预算 ¥20"
+        ></textarea>
+      </label>
+
+      <button
+        class="btn"
+        onclick="saveMenuAnalysis()"
+      >
+        保存分析记录
+      </button>
+
+    </div>`
+  );
 }
+
 
 function saveMenuAnalysis(){
 
-const shop=
-document.getElementById("menuShop").value.trim()||
-"未命名店铺/窗口";
+  const shop=
+    document
+      .getElementById("menuShop")
+      .value
+      .trim()||
+    "未命名店铺/窗口";
 
-const note=
-document.getElementById("menuNote").value.trim();
+  const note=
+    document
+      .getElementById("menuNote")
+      .value
+      .trim();
 
-const arr=
-JSON.parse(localStorage.getItem("food_library_v2")||"[]");
 
-arr.unshift({
-id:String(Date.now()),
-shop,
-note,
-date:today(),
-analysis:
-"待图像模型分析：搭配、蛋白质来源、蔬果、主食、油盐糖风险与价格/预算。"
-});
+  const arr=
+    JSON.parse(
+      localStorage.getItem("food_library_v2")||"[]"
+    );
 
-localStorage.setItem(
-"food_library_v2",
-JSON.stringify(arr.slice(0,50))
-);
 
-closeModal();
-renderFoodLibrary();
+  arr.unshift({
+
+    id:String(Date.now()),
+
+    shop,
+
+    note,
+
+    date:today(),
+
+    analysis:
+      "待图像模型分析：搭配、蛋白质来源、蔬果、主食、油盐糖风险与价格/预算。"
+  });
+
+
+  localStorage.setItem(
+    "food_library_v2",
+    JSON.stringify(
+      arr.slice(0,50)
+    )
+  );
+
+
+  closeModal();
+
+  renderFoodLibrary();
 }
+
 
 function renderFoodLibrary(){
 
-const arr=
-JSON.parse(localStorage.getItem("food_library_v2")||"[]");
+  const arr=
+    JSON.parse(
+      localStorage.getItem("food_library_v2")||"[]"
+    );
 
-const box=document.getElementById("foodLibrary");
+  const box=
+    document.getElementById("foodLibrary");
 
-if(!box)return;
+  if(!box)return;
 
-box.innerHTML=
-arr.length
-?arr.slice(0,8).map(x=>`
-<div class="food">
 
-<div style="flex:1">
-<b>${esc(x.shop)}</b>
+  box.innerHTML=
 
-<div class="muted">
-${esc(x.date)}
-${x.note?" · "+esc(x.note):""}
-</div>
+    arr.length
 
-<div class="small" style="margin-top:4px">
-${esc(x.analysis)}
-</div>
+      ?arr
+        .slice(0,8)
+        .map(x=>
+          `<div class="food">
 
-</div>
+            <div style="flex:1">
 
-</div>
-`).join("")
-:'还没有分析记录。你的真实食堂和外卖选择会逐渐形成自己的 FOOD 数据库。';
+              <b>${esc(x.shop)}</b>
+
+              <div class="muted">
+                ${esc(x.date)}
+                ${x.note
+                  ?" · "+esc(x.note)
+                  :""}
+              </div>
+
+              <div
+                class="small"
+                style="margin-top:4px"
+              >
+                ${esc(x.analysis)}
+              </div>
+
+            </div>
+
+          </div>`
+        )
+        .join("")
+
+      :'还没有分析记录。你的真实食堂和外卖选择会逐渐形成自己的 FOOD 数据库。';
 }
+
 
 function addFood(){
 
-openModal("添加食谱 / 食堂备选",`
-<div class="form">
+  openModal(
+    "添加食谱 / 食堂备选",
 
-<label>名称
-<input id="f1" placeholder="例如：番茄鸡蛋饭">
-</label>
+    `<div class="form">
 
-<label>餐次
-<select id="f2">
-<option>早餐</option>
-<option>午餐</option>
-<option>晚餐</option>
-<option>加餐</option>
-</select>
-</label>
+      <label>
+        名称
+        <input
+          id="f1"
+          placeholder="例如：番茄鸡蛋饭"
+        >
+      </label>
 
-<label>预算
-<input id="f3" placeholder="例如 ¥15">
-</label>
+      <label>
+        餐次
+        <select id="f2">
+          <option>早餐</option>
+          <option>午餐</option>
+          <option>晚餐</option>
+          <option>加餐</option>
+        </select>
+      </label>
 
-<label>备注
-<input id="f4" placeholder="材料 / 食堂窗口 / 搭配">
-</label>
+      <label>
+        预算
+        <input
+          id="f3"
+          placeholder="例如 ¥15"
+        >
+      </label>
 
-<button class="btn" onclick="doAddFood()">保存</button>
+      <label>
+        备注
+        <input
+          id="f4"
+          placeholder="材料 / 食堂窗口 / 搭配"
+        >
+      </label>
 
-</div>
-`);
+      <button
+        class="btn"
+        onclick="doAddFood()"
+      >
+        保存
+      </button>
+
+    </div>`
+  );
 }
+
 
 function doAddFood(){
 
-let name=
-document.getElementById("f1").value.trim();
+  let name=
+    document
+      .getElementById("f1")
+      .value
+      .trim();
 
-if(!name)return;
+  if(!name)return;
 
-data.foods.push({
-id:String(Date.now()),
-name,
-meal:document.getElementById("f2").value,
-budget:document.getElementById("f3").value,
-note:document.getElementById("f4").value
-});
 
-save();
-closeModal();
+  data.foods.push({
+
+    id:String(Date.now()),
+
+    name,
+
+    meal:
+      document.getElementById("f2").value,
+
+    budget:
+      document.getElementById("f3").value,
+
+    note:
+      document.getElementById("f4").value
+  });
+
+
+  save();
+  closeModal();
 }
+
 
 function delFood(id){
-data.foods=data.foods.filter(x=>x.id!==id);
-save();
+
+  data.foods=
+    data.foods.filter(
+      x=>x.id!==id
+    );
+
+  save();
 }
 
-function renderReview(){
 
-let all=data.tasks.length;
-let done=data.tasks.filter(x=>x.done).length;
-
-let p=Math.round(
-data.pa.goals.reduce((a,g)=>a+Number(g.p||0),0)/
-Math.max(1,data.pa.goals.length)
+/* 保存并启动 */
+localStorage.setItem(
+  KEY,
+  JSON.stringify(data)
 );
 
-document.getElementById("reviewIncome").textContent=
-money(income());
-
-document.getElementById("reviewExpense").textContent=
-money(spent());
-
-document.getElementById("reviewTasks").textContent=
-(all?Math.round(done/all*100):0)+"%";
-
-document.getElementById("reviewPA").textContent=
-p+"%";
-
-if(data.review)
-document.getElementById("reviewText").innerHTML=
-esc(data.review).replace(/\n/g,"<br>");
-}
-
-function generateReview(){
-
-let arr=monthRecords();
-let inc=income();
-let out=spent();
-let all=data.tasks.length;
-let done=data.tasks.filter(x=>x.done).length;
-
-let p=Math.round(
-data.pa.goals.reduce((a,g)=>a+Number(g.p||0),0)/
-Math.max(1,data.pa.goals.length)
-);
-
-let cats={};
-
-arr
-.filter(x=>x.type!=="income")
-.forEach(x=>{
-cats[x.cat]=(cats[x.cat]||0)+Number(x.amount);
-});
-
-let top=
-Object.entries(cats)
-.sort((a,b)=>b[1]-a[1])[0];
-
-let text=
-`本月复盘
-收入：${money(inc)}
-支出：${money(out)}
-任务完成率：${all?Math.round(done/all*100):0}%
-PA 当前平均进度：${p}%
-${top?`最高支出类别：${top[0]}，${money(top[1])}`:"本月还没有足够的支出记录。"}
-
-下月建议：先根据真实支出调整生活费与储蓄目标，不需要手动同步多个页面。`;
-
-data.review=text;
-
-save();
-closeModal();
-
-document.getElementById("review")
-.scrollIntoView({behavior:"smooth"});
-}
-
-ensurePAPlan();
-localStorage.setItem(KEY,JSON.stringify(data));
 render();
-</script>
 
+</script>
 </body>
 </html>
